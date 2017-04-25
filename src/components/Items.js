@@ -1,11 +1,19 @@
 import React, { Component } from 'react';
-console.log()
 class Items extends Component {
   render() {
-    console.log(this.props.items[0])
-    return (
-      <div>successfully showing an item, heh: {this.props.items[0].name}</div>
-    );
+    // console.log(this.props.items.lengh > 1)
+      if( this.props.items.length ) {
+        return (
+            <div>{
+              this.props.items.map(i =>
+                <div key={i.id}>{i.name}</div>)
+            }</div>
+        );
+      } else {
+        return (
+          <div>there are no items</div>
+        );
+      }
   }
 }
 

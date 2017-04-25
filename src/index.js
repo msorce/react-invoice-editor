@@ -6,8 +6,6 @@ import { createStore, applyMiddleware } from 'redux';
 import App from './components/App';
 import './index.css';
 
-let itemCounter = 0;
-console.log(itemCounter);
 const initialState = {
   items:[],
   charges: {
@@ -98,16 +96,17 @@ const store = createStore( invoiceReducer, applyMiddleware(logger));
 
 // these are normally triggered from user events
 
-store.dispatch({
-  type: "ADD_ITEM",
-  payload: {
-    id: itemCounter++,
-    name: 'cog',
-    qty: 1,
-    price: 5.00,
-    total: 100
-  }
-})
+// store.dispatch({
+//   type: "ADD_ITEM",
+//   payload: {
+//     id: itemCounter++,
+//     name: 'cog',
+//     qty: 1,
+//     price: 5.00,
+//     total: 100
+//   }
+// })
+
 // store.dispatch({
 //   type: "ADD_ITEM",
 //   payload: {
@@ -118,6 +117,7 @@ store.dispatch({
 //     total: 100
 //   }
 // })
+
 // store.dispatch({
 //   type: "REMOVE_ITEM",
 //   payload: {
