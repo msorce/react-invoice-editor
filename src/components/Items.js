@@ -1,13 +1,12 @@
 import React, { Component } from 'react';
+import Item from './Item.js'
 class Items extends Component {
   render() {
-    // console.log(this.props.items.lengh > 1)
       if( this.props.items.length ) {
         return (
-            <div>{
-              this.props.items.map(i =>
-                <div key={i.id}>{i.name}</div>)
-            }</div>
+          <ul>{
+            this.props.items.map((i, index) => <Item key={i.id} {...i}/>)
+          }</ul>
         );
       } else {
         return (
@@ -16,11 +15,5 @@ class Items extends Component {
       }
   }
 }
-
-// const mapStateToProps = (state) => {
-//   return {
-//     invoice: state.invoice
-//   };
-// };
 
 export default Items;

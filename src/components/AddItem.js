@@ -9,8 +9,8 @@ class AddItem extends Component {
             this.props.addItem({
               id:uniqueIdentifier++,
               name: this.refs.name.value,
-              qty: parseInt(this.refs.qty.value),
-              price: parseFloat(this.refs.price.value),
+              qty: parseInt( this.refs.qty.value, 10 ),
+              price: parseFloat( this.refs.price.value ),
               total:this.refs.price.value * this.refs.qty.value
             })
           }}>
@@ -25,13 +25,15 @@ class AddItem extends Component {
           {' '} qty: <input
           ref="qty"
           type="number"
-          step="one"
+          step="1"
+          min="0"
           style={{width:'10%'}} />
 
           {' '} price: <input
           ref="price"
           type="number"
           step="any"
+          min="0"
           style={{width:'20%'}} />
 
           <button type="submit">+</button>
