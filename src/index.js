@@ -16,6 +16,7 @@ const initialState = {
 };
 
 // This is a reducer, a reducer creates a new copy of the old state manipulates depending on the action, it and returns the new state
+// I would have put this in a file of its own, for the exercise I have not
 const invoiceReducer = ( state = initialState, action ) => {
 
   let subt;
@@ -54,13 +55,29 @@ const invoiceReducer = ( state = initialState, action ) => {
       };
       break;
     case "EDIT_ITEM":
-      subt = action.payload.total;
+      // remove old item calc charges
+      // add new item calc charges
+      const targetItem = state.items.find(it => it.id === action.payload.id);
+      console.log('remove this: ',targetItem);
+      console.log('insert this: ',action.payload);
+
+      subt = state.charges.subtotal - targetItem.total + action.payload.total;
       tx   = subt * 0.05;
       tot  = subt + tx;
 
+      // immutability is beautiful
       state = {
         ...state,
-        items: [...state.items.filter(i => i.id !== action.payload.id), action.payload],
+        items: [...state.items.map((i) => {
+            if (i.id !== action.payload.id) {
+              return i;
+            }
+            return {
+              ...i,
+              ...action.payload
+            };
+          })
+        ],
         charges:{
           ...state.charges,
           subtotal: subt,
@@ -74,28 +91,13 @@ const invoiceReducer = ( state = initialState, action ) => {
   return state;
 };
 
-
-// Middleware, just logging actions
-// this executeds before the store gets updated
-// const myLogger = (store) => (next) => (action) => {
-//   console.log('Action Logged: ', action);
-//   next(action);
-// };
-
-
-
-// this is the store we have set the initial value to 1
 // the store stores the state
 // the store knows that the reducer handles the dispatched actions
 const store = createStore( invoiceReducer, applyMiddleware(logger));
 
-// this fires every time the store is updated
-// store.subscribe(()=>{
-//   console.log('store updated', store.getState());
-// })
-
 // these are normally triggered from user events
-
+// I left these to show my work, these were test actions
+// I made the entire application work initially without react before i built any UI
 // store.dispatch({
 //   type: "ADD_ITEM",
 //   payload: {
@@ -140,7 +142,7 @@ const store = createStore( invoiceReducer, applyMiddleware(logger));
 //   }
 // })
 
-// Provider connects the store to our redux applacation
+// Provider connects the store to our redux application
 ReactDOM.render(
   <Provider store={store}>
     <App />

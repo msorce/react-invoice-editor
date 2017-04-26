@@ -1,52 +1,47 @@
 import React, { Component } from 'react';
-// import { connect } from "react-redux";
+
 let uniqueIdentifier = 0;
 class AddItem extends Component {
   render() {
     return (
-      <div>
-        <form onSubmit={(e) => { e.preventDefault()
-            this.props.addItem({
-              id:uniqueIdentifier++,
-              name: this.refs.name.value,
-              qty: parseInt( this.refs.qty.value, 10 ),
-              price: parseFloat( this.refs.price.value ),
-              total:this.refs.price.value * this.refs.qty.value
-            })
-          }}>
+      <form className="add-item" onSubmit={(e) => { e.preventDefault()
+        if(this.refs.name.value &&
+           this.refs.qty.value&&
+           this.refs.price.value)
+        {
+          this.props.addItem({
+            id:++uniqueIdentifier,
+            name: this.refs.name.value,
+            qty: parseInt( this.refs.qty.value, 10 ) || 0,
+            price: parseFloat( this.refs.price.value ) || 0,
+            total:this.refs.price.value * this.refs.qty.value
+          })
+          this.refs.name.value = '';
+          this.refs.qty.value = 1;
+          this.refs.price.value = 0.01;
+          this.refs.name.focus();
+        }}}>
 
-          <b> Add item </b> <br/>
-
-          {' '} name: <input
+        <input
+          placeholder="New Item"
           ref="name"
-          type="text"
-          style={{width:'30%'}} />
-
-          {' '} qty: <input
+          type="text"/>
+        <input
           ref="qty"
           type="number"
           step="1"
-          min="0"
-          style={{width:'10%'}} />
-
-          {' '} price: <input
+          defaultValue={1}
+          min="0"/>
+        <input
           ref="price"
           type="number"
           step="any"
-          min="0"
-          style={{width:'20%'}} />
-
-          <button type="submit">+</button>
-        </form>
-      </div>
+          defaultValue={0.01}
+          min="0"/>
+        <button type="submit">+</button>
+      </form>
     );
   }
 }
-
-// const mapStateToProps = (state) => {
-//   return {
-//     invoice: state.invoice
-//   };
-// };
 
 export default AddItem;

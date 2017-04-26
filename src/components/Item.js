@@ -7,26 +7,62 @@ class Item extends Component {
     this.state = {isEditing: false};
   }
 
-
   render() {
-    // const { id } = this.props;
-    console.log(this.props);
-
-    return(
-      <li>
-        <div className="item-name">
-          {this.props.name}{' '}
-        </div>
-        <div className="item-quantities">
-          {this.props.qty}{' '}
-          ${this.props.price.toFixed(2)}{' '}
-          ${this.props.total.toFixed(2)}{' '}
-        </div>
-        <button onClick={(e) => { e.preventDefault();
-        this.props.removeItem(this.props);
-        }}>x</button>
-      </li>
-    );
+    if(this.state.isEditing) {
+      return (
+        <li>
+          <form onSubmit={(e) => { e.preventDefault();
+            this.props.editItem({
+              id:this.props.id,
+              name: this.refs.name.value,
+              qty: parseInt( this.refs.qty.value, 10 ) || 0,
+              price: parseFloat( this.refs.price.value ) || 0,
+              total:this.refs.price.value * this.refs.qty.value
+            });
+            this.toggleEditing();
+          }}>
+            <input
+              defaultValue={this.props.name}
+              ref="name"
+              type="text"/>
+            <input
+              defaultValue={this.props.qty}
+              ref="qty"
+              type="number"
+              step="1"
+              min="0"/>
+            $<input
+              defaultValue={this.props.price}
+              ref="price"
+              type="number"
+              step="any"
+              min="0"/>
+            <button className="save-btn">save</button>
+            <button className="cancel-btn" onClick={this.toggleEditing.bind(this)}>cancel</button>
+          </form>
+        </li>
+      );
+    } else {
+      return(
+        <li onClick={this.toggleEditing.bind(this)}>
+          <div className="item-name">
+            {this.props.name}{' '}
+          </div>
+          <div className="item-quantities">
+            <span>{this.props.qty}{' '}</span>
+            <span>${this.props.price.toFixed(2)}{' '}</span>
+            <span>${this.props.total.toFixed(2)}{' '}</span>
+          </div>
+          <button className="del-btn" onClick={(e) => { e.preventDefault();
+          this.props.removeItem(this.props);
+          }}>x</button>
+        </li>
+      );
+    }
+  }
+  toggleEditing(){
+   this.setState({isEditing: !this.state.isEditing});
+   console.log(this);
   }
 }
 
@@ -39,8 +75,7 @@ const mapStateToProps = (state) => {
     items: state.items
   };
 };
-
-
+// we can now dispatch actions here
 const mapDispatchToProps = (dispatch) => {
   return {
     removeItem: (item) => {
@@ -48,7 +83,13 @@ const mapDispatchToProps = (dispatch) => {
         type: "REMOVE_ITEM",
         payload: item
       });
-    }
+    },
+    editItem: (item) => {
+      dispatch({
+        type: "EDIT_ITEM",
+        payload: item
+      });
+    },
   }
 };
 

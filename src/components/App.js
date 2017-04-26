@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from "react-redux";
+import Header from "./Header";
 import Items from "./Items";
 import AddItem from "./AddItem";
 import Charges from "./Charges";
@@ -7,7 +8,9 @@ import Charges from "./Charges";
 class App extends Component {
   render() {
     return (
-      <div>
+      <div className="container">
+        <Header/>
+        <hr/>
         <Items
           items={this.props.items}
           />
