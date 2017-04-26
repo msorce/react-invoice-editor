@@ -3,6 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "bootstrap": "^3.3.7",
+    "bootstrap-css": "^4.0.0-alpha.5",
+    "bootstrap-without-jquery": "^1.0.5",
     "react": "^15.5.4",
     "react-dom": "^15.5.4",
     "react-redux": "^5.0.4",

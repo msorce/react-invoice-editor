@@ -31,7 +31,8 @@ class Item extends Component {
               type="number"
               step="1"
               min="0"/>
-            $<input
+            <span className="dol">$</span>
+            <input
               defaultValue={this.props.price}
               ref="price"
               type="number"
