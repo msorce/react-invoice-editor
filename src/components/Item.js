@@ -62,7 +62,6 @@ class Item extends Component {
   }
   toggleEditing(){
    this.setState({isEditing: !this.state.isEditing});
-   console.log(this);
   }
 }
 
@@ -70,7 +69,6 @@ class Item extends Component {
 // which properties we want in which component
 // we can hook up any component to redux like this
 const mapStateToProps = (state) => {
-  console.log(state);
   return {
     items: state.items
   };
